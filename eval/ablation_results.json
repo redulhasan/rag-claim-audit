@@ -1,0 +1,786 @@
+{
+  "results": {
+    "bm25": {
+      "hit_at_3": 1.0,
+      "mrr_at_5": 0.952,
+      "refusal_accuracy": 0.7,
+      "oos_refusal_rate": 0.0,
+      "median_latency_ms": 0.3,
+      "n_answerable": 14,
+      "per_query": [
+        {
+          "id": "Q01",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q02",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q03",
+          "hit3": 1.0,
+          "rr": 0.333,
+          "refused": false
+        },
+        {
+          "id": "Q04",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q05",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q06",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q07",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q08",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q09",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q10",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q11",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q12",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q13",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q14",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q15",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q16",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q17",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q18",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q19",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        }
+      ]
+    },
+    "dense_faiss": {
+      "hit_at_3": 1.0,
+      "mrr_at_5": 1.0,
+      "refusal_accuracy": 0.8,
+      "oos_refusal_rate": 0.333,
+      "median_latency_ms": 23.6,
+      "n_answerable": 14,
+      "per_query": [
+        {
+          "id": "Q01",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q02",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q03",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q04",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q05",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q06",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q07",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q08",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q09",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q10",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q11",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q12",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q13",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q14",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q15",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q16",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q17",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q18",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q19",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        }
+      ]
+    },
+    "hybrid_rrf": {
+      "hit_at_3": 1.0,
+      "mrr_at_5": 1.0,
+      "refusal_accuracy": 0.7,
+      "oos_refusal_rate": 0.0,
+      "median_latency_ms": 12.4,
+      "n_answerable": 14,
+      "per_query": [
+        {
+          "id": "Q01",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q02",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q03",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q04",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q05",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q06",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q07",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q08",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q09",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q10",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q11",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q12",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q13",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q14",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q15",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q16",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q17",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q18",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q19",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        }
+      ]
+    },
+    "hybrid_rrf_rerank": {
+      "hit_at_3": 1.0,
+      "mrr_at_5": 0.964,
+      "refusal_accuracy": 0.8,
+      "oos_refusal_rate": 0.667,
+      "median_latency_ms": 2594.6,
+      "n_answerable": 14,
+      "per_query": [
+        {
+          "id": "Q01",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q02",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q03",
+          "hit3": 1.0,
+          "rr": 0.5,
+          "refused": true
+        },
+        {
+          "id": "Q04",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q05",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q06",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q07",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q08",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q09",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": true
+        },
+        {
+          "id": "Q10",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q11",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q12",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q13",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q14",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q15",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q16",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q17",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q18",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q19",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        }
+      ]
+    }
+  },
+  "chunking": {
+    "header_aware": {
+      "hit_at_3": 1.0,
+      "mrr_at_5": 1.0,
+      "refusal_accuracy": 0.7,
+      "oos_refusal_rate": 0.0,
+      "median_latency_ms": 14.6,
+      "n_answerable": 14,
+      "per_query": [
+        {
+          "id": "Q01",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q02",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q03",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q04",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q05",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q06",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q07",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q08",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q09",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q10",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q11",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q12",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q13",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q14",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q15",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q16",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q17",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q18",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q19",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        }
+      ]
+    },
+    "fixed": {
+      "hit_at_3": 1.0,
+      "mrr_at_5": 1.0,
+      "refusal_accuracy": 0.7,
+      "oos_refusal_rate": 0.0,
+      "median_latency_ms": 12.0,
+      "n_answerable": 14,
+      "per_query": [
+        {
+          "id": "Q01",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q02",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q03",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q04",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q05",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q06",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q07",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q08",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q09",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q10",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q11",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q12",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q13",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q14",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q15",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q16",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q17",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q18",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q19",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        }
+      ]
+    }
+  }
+}
