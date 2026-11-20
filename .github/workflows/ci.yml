@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      RAG_LIGHTWEIGHT: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      # cpu torch wheel only; the default linux torch wheel is several GB of cuda libraries
+      - name: Install CPU torch
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      # tests run in lightweight mode on purpose: no model downloads in CI
+      - name: Run tests
+        run: pytest -v
