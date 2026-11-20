@@ -1,5 +1,7 @@
 # rag-claim-audit
 
+![CI](https://github.com/redulhasan/rag-claim-audit/actions/workflows/ci.yml/badge.svg)
+
 I built this after working through LangChain, PyTorch and the usual RAG tutorials and noticing that most of my projects stopped at "it returned something plausible". I wanted numbers instead: where does dense retrieval actually beat BM25 on my own notes, does a small cross-encoder reranker earn its CPU latency, and can I catch the specific sentences in an answer that the retrieved text does not support. So this is a small diagnostic pipeline over six markdown notes I wrote on transformers, LoRA, retrieval, RLHF/DPO, evaluation metrics and inference optimization. It is a measurement tool first and a QA system second.
 
 ## Pipeline
