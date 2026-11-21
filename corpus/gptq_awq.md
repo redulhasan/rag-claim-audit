@@ -73,7 +73,7 @@ pass: 128 sequences is the common budget, and results move measurably when
 calibration data is off-domain (calibrating a code model on news text costs
 visible perplexity on code). Sequence length matters too: calibrating at
 512 tokens and deploying at 8192 underrepresents the activation ranges of
-long contexts. The robust practice is calibration data sampled from the
+long contexts. The sound practice is calibration data sampled from the
 deployment distribution at the deployment length, refreshed when the model
 or the traffic changes. This is also why quantized checkpoints distributed
 without calibration details are hard to trust: the same method name hides a
