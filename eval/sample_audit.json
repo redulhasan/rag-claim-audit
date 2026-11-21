@@ -1,13 +1,16 @@
 {
   "question": "How much memory does the KV cache use per token for a 32-layer model with d_model 4096 in fp16?",
   "refused": false,
+  "refusal_reason": null,
   "answer": "The KV cache holds 0.5 MB per token for a 32-layer model with d_model 4096 in fp16. Batch size in production serving is usually limited by KV cache memory, not weights. The KV cache holds 5 MB per token for a 32-layer model with d_model 4096 in fp16.",
   "claims": [
     {
       "claim": "The KV cache holds 0.5 MB per token for a 32-layer model with d_model 4096 in fp16.",
-      "label": "supported",
+      "label": "weakly_supported",
       "score": 1.0,
       "numeric_mismatch": false,
+      "contradiction": false,
+      "reason": "insufficient_entailment",
       "citation": {
         "source_file": "transformers_attention.md",
         "section": "KV cache"
@@ -18,6 +21,8 @@
       "label": "supported",
       "score": 0.999,
       "numeric_mismatch": false,
+      "contradiction": false,
+      "reason": "entailed",
       "citation": {
         "source_file": "transformers_attention.md",
         "section": "KV cache"
@@ -28,15 +33,18 @@
       "label": "unsupported",
       "score": 1.0,
       "numeric_mismatch": true,
+      "contradiction": false,
+      "reason": "numeric_mismatch",
       "citation": {
         "source_file": "transformers_attention.md",
         "section": "KV cache"
       }
     }
   ],
-  "grounding_ratio": 0.667,
+  "grounding_ratio": 0.333,
   "n_claims": 3,
-  "n_supported": 2,
+  "n_supported": 1,
   "n_unsupported": 1,
-  "latency_ms": 4731.2
+  "ungrounded": true,
+  "latency_ms": 12437.2
 }

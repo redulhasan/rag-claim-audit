@@ -1,12 +1,15 @@
 {
   "results": {
     "bm25": {
-      "hit_at_3": 1.0,
-      "mrr_at_5": 0.952,
-      "refusal_accuracy": 0.7,
+      "hit_at_3": 0.944,
+      "mrr_at_5": 0.931,
+      "refusal_accuracy": 0.6,
       "oos_refusal_rate": 0.0,
-      "median_latency_ms": 0.3,
-      "n_answerable": 14,
+      "oos_refusal_accuracy": 0.0,
+      "false_premise_refusal_accuracy": 0.0,
+      "answerable_false_refusal_rate": 0.0,
+      "median_latency_ms": 2.6,
+      "n_answerable": 36,
       "per_query": [
         {
           "id": "Q01",
@@ -22,8 +25,8 @@
         },
         {
           "id": "Q03",
-          "hit3": 1.0,
-          "rr": 0.333,
+          "hit3": 0.0,
+          "rr": 0.0,
           "refused": false
         },
         {
@@ -59,7 +62,7 @@
         {
           "id": "Q09",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.333,
           "refused": false
         },
         {
@@ -70,8 +73,8 @@
         },
         {
           "id": "Q11",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.2,
           "refused": false
         },
         {
@@ -124,6 +127,246 @@
         },
         {
           "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q21",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q22",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q23",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q24",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q25",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q26",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q27",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q28",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q29",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q30",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q31",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q32",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q33",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q34",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q35",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q36",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q37",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q38",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q39",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q40",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q41",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q42",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q43",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q44",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q45",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q46",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q47",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q48",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q49",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q50",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q51",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q52",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q53",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q54",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q55",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q56",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q57",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q58",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q59",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q60",
           "hit3": null,
           "rr": null,
           "refused": false
@@ -131,12 +374,15 @@
       ]
     },
     "dense_faiss": {
-      "hit_at_3": 1.0,
-      "mrr_at_5": 1.0,
-      "refusal_accuracy": 0.8,
-      "oos_refusal_rate": 0.333,
-      "median_latency_ms": 23.6,
-      "n_answerable": 14,
+      "hit_at_3": 0.917,
+      "mrr_at_5": 0.881,
+      "refusal_accuracy": 0.7,
+      "oos_refusal_rate": 0.25,
+      "oos_refusal_accuracy": 0.429,
+      "false_premise_refusal_accuracy": 0.0,
+      "answerable_false_refusal_rate": 0.0,
+      "median_latency_ms": 102.4,
+      "n_answerable": 36,
       "per_query": [
         {
           "id": "Q01",
@@ -152,14 +398,14 @@
         },
         {
           "id": "Q03",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.25,
           "refused": false
         },
         {
           "id": "Q04",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.5,
           "refused": false
         },
         {
@@ -170,8 +416,8 @@
         },
         {
           "id": "Q06",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.25,
           "refused": false
         },
         {
@@ -189,7 +435,7 @@
         {
           "id": "Q09",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.5,
           "refused": false
         },
         {
@@ -200,8 +446,8 @@
         },
         {
           "id": "Q11",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.2,
           "refused": false
         },
         {
@@ -219,7 +465,7 @@
         {
           "id": "Q14",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.5,
           "refused": false
         },
         {
@@ -254,6 +500,246 @@
         },
         {
           "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q21",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q22",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q23",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q24",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q25",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q26",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q27",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q28",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q29",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q30",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q31",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q32",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q33",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q34",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q35",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q36",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q37",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q38",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q39",
+          "hit3": 1.0,
+          "rr": 0.5,
+          "refused": false
+        },
+        {
+          "id": "Q40",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q41",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q42",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q43",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q44",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q45",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q46",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q47",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q48",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q49",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q50",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q51",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q52",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q53",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q54",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q55",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q56",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q57",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q58",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q59",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q60",
           "hit3": null,
           "rr": null,
           "refused": false
@@ -261,12 +747,15 @@
       ]
     },
     "hybrid_rrf": {
-      "hit_at_3": 1.0,
-      "mrr_at_5": 1.0,
-      "refusal_accuracy": 0.7,
-      "oos_refusal_rate": 0.0,
-      "median_latency_ms": 12.4,
-      "n_answerable": 14,
+      "hit_at_3": 0.917,
+      "mrr_at_5": 0.914,
+      "refusal_accuracy": 0.617,
+      "oos_refusal_rate": 0.042,
+      "oos_refusal_accuracy": 0.071,
+      "false_premise_refusal_accuracy": 0.0,
+      "answerable_false_refusal_rate": 0.0,
+      "median_latency_ms": 110.3,
+      "n_answerable": 36,
       "per_query": [
         {
           "id": "Q01",
@@ -282,8 +771,8 @@
         },
         {
           "id": "Q03",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.0,
           "refused": false
         },
         {
@@ -300,8 +789,8 @@
         },
         {
           "id": "Q06",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.2,
           "refused": false
         },
         {
@@ -319,7 +808,7 @@
         {
           "id": "Q09",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.5,
           "refused": false
         },
         {
@@ -330,8 +819,8 @@
         },
         {
           "id": "Q11",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.2,
           "refused": false
         },
         {
@@ -384,19 +873,262 @@
         },
         {
           "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q21",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q22",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q23",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q24",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q25",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q26",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q27",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q28",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q29",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q30",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q31",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q32",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q33",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q34",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q35",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q36",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q37",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q38",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q39",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q40",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q41",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q42",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q43",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q44",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q45",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q46",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q47",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q48",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q49",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q50",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q51",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q52",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q53",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q54",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q55",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q56",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q57",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q58",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q59",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q60",
           "hit3": null,
           "rr": null,
           "refused": false
         }
       ]
     },
-    "hybrid_rrf_rerank": {
-      "hit_at_3": 1.0,
-      "mrr_at_5": 0.964,
+    "hybrid_rrf_rerank_top20": {
+      "hit_at_3": 0.944,
+      "mrr_at_5": 0.881,
       "refusal_accuracy": 0.8,
-      "oos_refusal_rate": 0.667,
-      "median_latency_ms": 2594.6,
-      "n_answerable": 14,
+      "oos_refusal_rate": 0.583,
+      "oos_refusal_accuracy": 1.0,
+      "false_premise_refusal_accuracy": 0.0,
+      "answerable_false_refusal_rate": 0.056,
+      "median_latency_ms": 4310.5,
+      "n_answerable": 36,
       "per_query": [
         {
           "id": "Q01",
@@ -412,8 +1144,8 @@
         },
         {
           "id": "Q03",
-          "hit3": 1.0,
-          "rr": 0.5,
+          "hit3": 0.0,
+          "rr": 0.0,
           "refused": true
         },
         {
@@ -431,13 +1163,13 @@
         {
           "id": "Q06",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.333,
           "refused": false
         },
         {
           "id": "Q07",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.5,
           "refused": false
         },
         {
@@ -449,7 +1181,7 @@
         {
           "id": "Q09",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.333,
           "refused": true
         },
         {
@@ -460,8 +1192,8 @@
         },
         {
           "id": "Q11",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.2,
           "refused": false
         },
         {
@@ -514,6 +1246,619 @@
         },
         {
           "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q21",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q22",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q23",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q24",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q25",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q26",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q27",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q28",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q29",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q30",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q31",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q32",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q33",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q34",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q35",
+          "hit3": 1.0,
+          "rr": 0.333,
+          "refused": false
+        },
+        {
+          "id": "Q36",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q37",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q38",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q39",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q40",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q41",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q42",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q43",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q44",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q45",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q46",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q47",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q48",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q49",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q50",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q51",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q52",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q53",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q54",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q55",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q56",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q57",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q58",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q59",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q60",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        }
+      ]
+    },
+    "hybrid_rrf_rerank_top8": {
+      "hit_at_3": 0.944,
+      "mrr_at_5": 0.885,
+      "refusal_accuracy": 0.8,
+      "oos_refusal_rate": 0.583,
+      "oos_refusal_accuracy": 1.0,
+      "false_premise_refusal_accuracy": 0.0,
+      "answerable_false_refusal_rate": 0.056,
+      "median_latency_ms": 1892.0,
+      "n_answerable": 36,
+      "per_query": [
+        {
+          "id": "Q01",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q02",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q03",
+          "hit3": 0.0,
+          "rr": 0.0,
+          "refused": true
+        },
+        {
+          "id": "Q04",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q05",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q06",
+          "hit3": 1.0,
+          "rr": 0.333,
+          "refused": false
+        },
+        {
+          "id": "Q07",
+          "hit3": 1.0,
+          "rr": 0.5,
+          "refused": false
+        },
+        {
+          "id": "Q08",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q09",
+          "hit3": 1.0,
+          "rr": 0.5,
+          "refused": true
+        },
+        {
+          "id": "Q10",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q11",
+          "hit3": 0.0,
+          "rr": 0.2,
+          "refused": false
+        },
+        {
+          "id": "Q12",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q13",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q14",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q15",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q16",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q17",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q18",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q19",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q21",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q22",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q23",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q24",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q25",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q26",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q27",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q28",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q29",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q30",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q31",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q32",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q33",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q34",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q35",
+          "hit3": 1.0,
+          "rr": 0.333,
+          "refused": false
+        },
+        {
+          "id": "Q36",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q37",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q38",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q39",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q40",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q41",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q42",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q43",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q44",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q45",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q46",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q47",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q48",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q49",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q50",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q51",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q52",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q53",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q54",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q55",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q56",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q57",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q58",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q59",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q60",
           "hit3": null,
           "rr": null,
           "refused": false
@@ -523,12 +1868,15 @@
   },
   "chunking": {
     "header_aware": {
-      "hit_at_3": 1.0,
-      "mrr_at_5": 1.0,
-      "refusal_accuracy": 0.7,
-      "oos_refusal_rate": 0.0,
-      "median_latency_ms": 14.6,
-      "n_answerable": 14,
+      "hit_at_3": 0.917,
+      "mrr_at_5": 0.914,
+      "refusal_accuracy": 0.617,
+      "oos_refusal_rate": 0.042,
+      "oos_refusal_accuracy": 0.071,
+      "false_premise_refusal_accuracy": 0.0,
+      "answerable_false_refusal_rate": 0.0,
+      "median_latency_ms": 116.7,
+      "n_answerable": 36,
       "per_query": [
         {
           "id": "Q01",
@@ -544,8 +1892,8 @@
         },
         {
           "id": "Q03",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.0,
           "refused": false
         },
         {
@@ -562,8 +1910,8 @@
         },
         {
           "id": "Q06",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.2,
           "refused": false
         },
         {
@@ -581,7 +1929,7 @@
         {
           "id": "Q09",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.5,
           "refused": false
         },
         {
@@ -592,8 +1940,8 @@
         },
         {
           "id": "Q11",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.2,
           "refused": false
         },
         {
@@ -646,6 +1994,246 @@
         },
         {
           "id": "Q20",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q21",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q22",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q23",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q24",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q25",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q26",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q27",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q28",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q29",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q30",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q31",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q32",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q33",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q34",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q35",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q36",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q37",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q38",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q39",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q40",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q41",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q42",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q43",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q44",
+          "hit3": null,
+          "rr": null,
+          "refused": true
+        },
+        {
+          "id": "Q45",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q46",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q47",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q48",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q49",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q50",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q51",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q52",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q53",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q54",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q55",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q56",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q57",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q58",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q59",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q60",
           "hit3": null,
           "rr": null,
           "refused": false
@@ -653,12 +2241,15 @@
       ]
     },
     "fixed": {
-      "hit_at_3": 1.0,
-      "mrr_at_5": 1.0,
-      "refusal_accuracy": 0.7,
-      "oos_refusal_rate": 0.0,
-      "median_latency_ms": 12.0,
-      "n_answerable": 14,
+      "hit_at_3": 0.972,
+      "mrr_at_5": 0.907,
+      "refusal_accuracy": 0.617,
+      "oos_refusal_rate": 0.042,
+      "oos_refusal_accuracy": 0.071,
+      "false_premise_refusal_accuracy": 0.0,
+      "answerable_false_refusal_rate": 0.0,
+      "median_latency_ms": 106.3,
+      "n_answerable": 36,
       "per_query": [
         {
           "id": "Q01",
@@ -674,8 +2265,8 @@
         },
         {
           "id": "Q03",
-          "hit3": 1.0,
-          "rr": 1.0,
+          "hit3": 0.0,
+          "rr": 0.0,
           "refused": false
         },
         {
@@ -693,7 +2284,7 @@
         {
           "id": "Q06",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.333,
           "refused": false
         },
         {
@@ -711,7 +2302,7 @@
         {
           "id": "Q09",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.5,
           "refused": false
         },
         {
@@ -723,7 +2314,7 @@
         {
           "id": "Q11",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.333,
           "refused": false
         },
         {
@@ -741,7 +2332,7 @@
         {
           "id": "Q14",
           "hit3": 1.0,
-          "rr": 1.0,
+          "rr": 0.5,
           "refused": false
         },
         {
@@ -754,7 +2345,7 @@
           "id": "Q16",
           "hit3": null,
           "rr": null,
-          "refused": false
+          "refused": true
         },
         {
           "id": "Q17",
@@ -779,8 +2370,559 @@
           "hit3": null,
           "rr": null,
           "refused": false
+        },
+        {
+          "id": "Q21",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q22",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q23",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q24",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q25",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q26",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q27",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q28",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q29",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q30",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q31",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q32",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q33",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q34",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q35",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q36",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q37",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q38",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q39",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q40",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q41",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q42",
+          "hit3": 1.0,
+          "rr": 1.0,
+          "refused": false
+        },
+        {
+          "id": "Q43",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q44",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q45",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q46",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q47",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q48",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q49",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q50",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q51",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q52",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q53",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q54",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q55",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q56",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q57",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q58",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q59",
+          "hit3": null,
+          "rr": null,
+          "refused": false
+        },
+        {
+          "id": "Q60",
+          "hit3": null,
+          "rr": null,
+          "refused": false
         }
       ]
     }
-  }
+  },
+  "gate": {
+    "refusal_accuracy": 0.833,
+    "oos_refusal_accuracy": 1.0,
+    "false_premise_refusal_accuracy": 0.3,
+    "answerable_false_refusal_rate": 0.083,
+    "nli_median_latency_ms": 1445.2,
+    "nli_checks": 44,
+    "per_query": [
+      {
+        "id": "Q01",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q02",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q03",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q04",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q05",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q06",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q07",
+        "refused": true,
+        "refusal_reason": "false_premise"
+      },
+      {
+        "id": "Q08",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q09",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q10",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q11",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q12",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q13",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q14",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q15",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q16",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q17",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q18",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q19",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q20",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q21",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q22",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q23",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q24",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q25",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q26",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q27",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q28",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q29",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q30",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q31",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q32",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q33",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q34",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q35",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q36",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q37",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q38",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q39",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q40",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q41",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q42",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q43",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q44",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q45",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q46",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q47",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q48",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q49",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q50",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q51",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q52",
+        "refused": true,
+        "refusal_reason": "out_of_scope"
+      },
+      {
+        "id": "Q53",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q54",
+        "refused": true,
+        "refusal_reason": "false_premise"
+      },
+      {
+        "id": "Q55",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q56",
+        "refused": true,
+        "refusal_reason": "false_premise"
+      },
+      {
+        "id": "Q57",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q58",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q59",
+        "refused": false,
+        "refusal_reason": null
+      },
+      {
+        "id": "Q60",
+        "refused": true,
+        "refusal_reason": "false_premise"
+      }
+    ]
+  },
+  "nli_claim_median_latency_ms": 813.5
 }

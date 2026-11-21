@@ -2,7 +2,9 @@
 
 ![CI](https://github.com/redulhasan/rag-claim-audit/actions/workflows/ci.yml/badge.svg)
 
-I built this after working through LangChain, PyTorch and the usual RAG tutorials and noticing that most of my projects stopped at "it returned something plausible". I wanted numbers instead: where does dense retrieval actually beat BM25 on my own notes, does a small cross-encoder reranker earn its CPU latency, and can I catch the specific sentences in an answer that the retrieved text does not support. So this is a small diagnostic pipeline over six markdown notes I wrote on transformers, LoRA, retrieval, RLHF/DPO, evaluation metrics and inference optimization. It is a measurement tool first and a QA system second.
+I built this after working through LangChain, PyTorch and the usual RAG tutorials and noticing that most of my projects stopped at "it returned something plausible". I wanted numbers instead: where does dense retrieval actually beat BM25 on my own notes, does a small cross-encoder reranker earn its CPU latency, and can I catch the specific sentences in an answer that the retrieved text does not support. It is a small diagnostic pipeline over markdown notes I wrote on transformers, fine-tuning, quantization, distributed training, serving, retrieval and evaluation. It is a measurement tool first and a QA system second.
+
+Version 2 changes, each driven by a v1 limitation written down in the v0.1.0 release: the corpus grew from 6 notes to 32 (303 header-aware chunks) and the eval set from 20 queries to 60, so Hit@3 no longer saturates; the reranker candidate pool is capped at 8 instead of 20; the claim verifier now runs a real NLI model (DeBERTa-v3) behind the numeric check instead of relevance alone; and the abstention gate gained a second check aimed at false-premise questions, which v1 failed on completely.
 
 ## Pipeline
 
@@ -11,45 +13,64 @@ flowchart LR
     A[Markdown docs] --> B[Header-aware chunking]
     B --> C[BM25 + FAISS dense]
     C --> D[RRF fusion, k = 60]
-    D --> E[Cross-encoder reranker]
-    E --> F{Top score above threshold?}
-    F -- no --> G[Refuse: not enough evidence]
-    F -- yes --> H[Answer]
-    H --> I[Claim-level verifier]
-    I --> J[Per-claim label + citation]
+    D --> E[Cross-encoder reranker, top-8 candidates]
+    E --> F{Check 1: top score above threshold?}
+    F -- no --> G[Refuse: out_of_scope]
+    F -- yes --> H{Check 2: premise contradicted by top chunk?}
+    H -- yes --> I[Refuse: false_premise]
+    H -- no --> J[Answer]
+    J --> K[Claim verifier: numeric check, then NLI]
+    K --> L[Per-claim label + reason + citation]
 ```
 
 Components, in `src/`:
 
 - `chunking.py` - header-aware splitting with LangChain (`MarkdownHeaderTextSplitter`, then `RecursiveCharacterTextSplitter` at 800/100), plus a fixed-size variant for comparison. Every chunk keeps `source_file` and `section`.
-- `retrievers.py` - `BM25Okapi`, FAISS `IndexFlatIP` over `all-MiniLM-L6-v2` embeddings, reciprocal rank fusion, and a `ms-marco-MiniLM-L-6-v2` cross-encoder reranker.
-- `grounding.py` - splits an answer into sentences, scores each claim against the retrieved chunks, and labels it `supported` / `weakly_supported` / `unsupported`. A claim whose numbers do not appear in its best-matching chunk is flagged `unsupported` with `numeric_mismatch: true`, regardless of the relevance score.
-- `pipeline.py` - ties it together, with an abstention gate on the reranked top score (0.35 in the run below).
-- `api.py` - FastAPI wrapper: `GET /health`, `POST /retrieve`, `POST /audit`.
+- `retrievers.py` - `BM25Okapi`, FAISS `IndexFlatIP` over `all-MiniLM-L6-v2` embeddings, reciprocal rank fusion, and a `ms-marco-MiniLM-L-6-v2` cross-encoder reranker. Only the top 8 fused candidates reach the reranker (configurable via `top_k_candidates`); v1 reranked all 20.
+- `grounding.py` - the claim verifier. Per claim, against its best-matching chunk, in this order: (A) any number in the claim that the chunk does not contain makes it `unsupported` with reason `numeric_mismatch`; (B) NLI contradiction probability >= 0.50 makes it `unsupported` with reason `contradiction`; (C) NLI entailment >= 0.60 makes it `supported`; (D) anything else is `weakly_supported`. The NLI model is `cross-encoder/nli-deberta-v3-small`, always fed `(premise, hypothesis) = (chunk_text, claim)`. Raw logits go through an explicit stable softmax in this module, and the label order is read from the model config's `id2label` instead of being assumed, because both have differed across sentence-transformers versions.
+- `pipeline.py` - ties it together, with a three-check abstention gate: check 1 refuses `out_of_scope` when the reranked top score (a sigmoid-squashed logit) is under the threshold; check 2 refuses `false_premise` when the NLI contradiction probability of the question against the top chunk is >= 0.55; check 3, in audit mode, flags a draft answer `ungrounded` when its grounding ratio is under 0.50 or any claim contradicts its source.
+- `api.py` - FastAPI wrapper: `GET /health`, `POST /retrieve`, `POST /audit`. Responses gained `refusal_reason` and, for audits, per-claim `reason` / `contradiction` fields and an overall `ungrounded` flag; all v1 fields are unchanged.
 
-There is also a lightweight mode (`RAG_LIGHTWEIGHT=1`, TF-IDF vectors and term-coverage scoring behind the same interfaces) so the test suite and CI run without downloading models. Numbers from lightweight mode are not reported anywhere in this README; the ablation below used the real models on CPU.
+There is also a lightweight mode (`RAG_LIGHTWEIGHT=1`, TF-IDF vectors and term-coverage scoring behind the same interfaces, deterministic heuristics standing in for the NLI model) so the test suite and CI run in seconds without downloading models. Numbers from lightweight mode are not reported anywhere in this README; the ablation below used the real models on CPU.
+
+A standalone Gradio demo lives in `demo/` (`pip install -r demo/requirements.txt`, then `python demo/app.py`). Gradio is deliberately not in the root requirements, the Dockerfile, or CI.
 
 ## Ablation results
 
-Measured with `python scripts/run_ablation.py` on the 20 queries in `eval/queries.jsonl` (14 answerable, 6 out of scope, including two false-premise questions). Full per-query output is in `eval/ablation_results.md`.
+Measured with `python scripts/run_ablation.py` on the 60 queries in `eval/queries.jsonl` (36 answerable, 14 out of scope, 10 false premise) over the 32-note corpus (303 header-aware chunks). Full per-query output is in `eval/ablation_results.md`. Refusal in this table is check 1 (the score gate) alone; the full gate is calibrated separately below.
 
-| method | Hit@3 | MRR@5 | refusal accuracy | out-of-scope refusal | median latency |
-|---|---|---|---|---|---|
-| bm25 | 1.000 | 0.952 | 0.700 | 0.000 | 0.3 ms |
-| dense_faiss | 1.000 | 1.000 | 0.800 | 0.333 | 23.6 ms |
-| hybrid_rrf | 1.000 | 1.000 | 0.700 | 0.000 | 12.4 ms |
-| hybrid_rrf_rerank | 1.000 | 0.964 | 0.800 | 0.667 | 2594.6 ms |
+| method | Hit@3 | MRR@5 | refusal accuracy | out-of-scope refusal | false-premise refusal | answerable false-refusal | median latency |
+|---|---|---|---|---|---|---|---|
+| bm25 | 0.944 | 0.931 | 0.600 | 0.000 | 0.000 | 0.000 | 2.6 ms |
+| dense_faiss | 0.917 | 0.881 | 0.700 | 0.429 | 0.000 | 0.000 | 102.4 ms |
+| hybrid_rrf | 0.917 | 0.914 | 0.617 | 0.071 | 0.000 | 0.000 | 110.3 ms |
+| hybrid_rrf_rerank (top-20 candidates) | 0.944 | 0.881 | 0.800 | 1.000 | 0.000 | 0.056 | 4310.5 ms |
+| hybrid_rrf_rerank (top-8 candidates) | 0.944 | 0.885 | 0.800 | 1.000 | 0.000 | 0.056 | 1892.0 ms |
 
-Chunking, with `hybrid_rrf` held fixed: header-aware (29 chunks) and fixed-size (28 chunks) both scored Hit@3 1.000 and MRR@5 1.000. On a corpus this small I cannot separate them; the header-aware version is still the default because its citations name a real section instead of an offset.
+What moved compared to v1:
 
-How to read the Hit@3 column: it saturates. Six notes on distinct topics means the right file is almost always in the top 3, so Hit@3 does not discriminate between methods here. The columns that moved were MRR, refusal behaviour and latency:
+- Capping the reranker pool at 8 candidates cut median latency from 4310.5 ms to 1892.0 ms (about 2.3x faster) with no ranking cost on this set: Hit@3 identical at 0.944, MRR@5 0.885 vs 0.881. The cap is the single clearest win in v2.
+- Hit@3 no longer saturates. With 32 notes on related topics, the right file is not automatic: Q03 (a paraphrase about serving memory) misses the top 3 entirely for the reranked pipeline, and Q11 lands the right file only at rank 5. BM25 now ties the reranked pipeline on Hit@3 and beats it on MRR (0.931 vs 0.885); plain hybrid RRF has the best MRR of the neural-free methods at 0.914. The reranker still does not earn its latency on ranking quality. What it earns it on is refusal: its roughly calibrated scores are the only ones where a threshold separates out-of-scope queries (1.000) from answerable ones, while BM25 and RRF scores refuse none of the out-of-scope set at thresholds that keep answerable queries alive.
+- Chunking, with `hybrid_rrf` held fixed: fixed-size splitting (294 chunks) scored Hit@3 0.972 / MRR@5 0.907 against header-aware (303 chunks) at 0.917 / 0.914. In v1 they tied. Header-aware stays the default because its citations name a real section, but on this corpus it is no longer even arguably the better retriever, and the README is not going to pretend otherwise.
 
-- BM25 put the correct chunk 3rd on Q03, a paraphrase-style question about serving memory ("running out of memory when I serve longer prompts to more users"), which is what dropped its MRR to 0.952. Dense retrieval ranked it 1st. On exact-term questions BM25 was fine.
-- The reranker did not improve ranking on this set (MRR 1.000 -> 0.964) and cost about 200x the latency of plain hybrid retrieval on CPU. Details below.
+## Gate calibration
+
+The full pipeline gate (rerank top-8, check 1 at 0.35, premise check at contradiction >= 0.55), measured on the same 60 queries:
+
+| metric | value |
+|---|---|
+| refusal accuracy (all 60 queries) | 0.833 |
+| out-of-scope refusal accuracy (14 queries) | 1.000 |
+| false-premise refusal accuracy (10 queries) | 0.300 |
+| answerable false-refusal rate (36 queries) | 0.083 |
+| NLI premise check latency (median, per query) | 1445.2 ms |
+| NLI claim check latency (median, per claim-chunk pair) | 813.5 ms |
+
+The premise check catches false premises stated as assertions (direct claims about GRPO critics, BM25 b, and activation checkpointing cost: Q54, Q56, Q60). It misses most premises phrased as questions, including both v1 failures Q17 and Q20: DeBERTa scores the interrogative form as neutral against the chunk (contradiction probability 0.02 for Q17), because a question does not assert anything. It also misses a numeric premise (Q57, "adds about 2 extra bits") because NLI does not compare numbers, and it produced one false refusal on an answerable query (Q07, contradiction 0.79 against a QLoRA memory chunk). Net effect versus the score gate alone: refusal accuracy 0.800 -> 0.833, false-premise refusal 0.000 -> 0.300, at the cost of one extra false refusal and about 1.4 s of CPU per query. That is progress, documented as partial, not a solved problem. Details and per-query outcomes are in `eval/ablation_results.md`.
 
 ## Claim audit example
 
-Real output from the pipeline (`eval/sample_audit.json`), auditing a draft answer where I changed one number on purpose (0.5 MB -> 5 MB):
+Real output from the v2 pipeline (`eval/sample_audit.json`), auditing a draft answer where I changed one number on purpose (0.5 MB -> 5 MB):
 
 ```json
 {
@@ -57,9 +78,11 @@ Real output from the pipeline (`eval/sample_audit.json`), auditing a draft answe
   "claims": [
     {
       "claim": "The KV cache holds 0.5 MB per token for a 32-layer model with d_model 4096 in fp16.",
-      "label": "supported",
+      "label": "weakly_supported",
       "score": 1.0,
       "numeric_mismatch": false,
+      "contradiction": false,
+      "reason": "insufficient_entailment",
       "citation": {"source_file": "transformers_attention.md", "section": "KV cache"}
     },
     {
@@ -67,6 +90,8 @@ Real output from the pipeline (`eval/sample_audit.json`), auditing a draft answe
       "label": "supported",
       "score": 0.999,
       "numeric_mismatch": false,
+      "contradiction": false,
+      "reason": "entailed",
       "citation": {"source_file": "transformers_attention.md", "section": "KV cache"}
     },
     {
@@ -74,28 +99,35 @@ Real output from the pipeline (`eval/sample_audit.json`), auditing a draft answe
       "label": "unsupported",
       "score": 1.0,
       "numeric_mismatch": true,
+      "contradiction": false,
+      "reason": "numeric_mismatch",
       "citation": {"source_file": "transformers_attention.md", "section": "KV cache"}
     }
   ],
-  "grounding_ratio": 0.667
+  "grounding_ratio": 0.333,
+  "ungrounded": true
 }
 ```
 
-Worth noting: the cross-encoder scored the altered claim 1.0, because it is topically identical to the source sentence. The numeric check is what caught it. That is the main reason the verifier is not just a relevance threshold.
+Two honest observations. The drifted claim is still caught by the numeric check, not by NLI: the cross-encoder relevance score is 1.0 and the NLI model also treats the sentence as a normal claim about the chunk; only the exact number comparison flags it. And the correct first claim is demoted to `weakly_supported` because DeBERTa's entailment probability for a number-dense sentence against its source chunk did not reach 0.60, which drags the grounding ratio to 0.333 and trips the `ungrounded` flag on a draft that is two-thirds correct. The verifier is conservative in a specific, measurable way: it under-trusts numeric claims. That trade is preferable to the v1 failure mode (trusting relevance), but it is a trade, and it is recorded here rather than tuned away quietly.
 
 ## What broke / known limitations
 
-- The reranker is hard to justify on CPU for this workload. Median latency went from 12.4 ms (hybrid) to 2594.6 ms (hybrid + rerank), MRR slightly decreased, and Hit@3 did not move. It did improve out-of-scope refusal (0.667 vs 0.000), because its scores are at least roughly calibrated, but for interactive use I would keep the candidate pool much smaller or run it on GPU.
-- The abstention gate fails in both directions. With the threshold at 0.35, the reranked pipeline refused two in-scope questions (Q03 and Q09) even though the correct chunk was in the top 3, and every method failed to refuse the two false-premise questions (Q17: LoRA increasing the rank of W itself; Q20: PagedAttention making single-sequence decode 10x faster). A score threshold detects "no relevant text found". It does not detect "the premise of the question is wrong", and BM25/RRF scores are not probabilities at all, so a threshold on them refused 0 of 6 out-of-scope queries.
-- The claim verifier checks relevance plus numbers, not entailment. A claim that keeps the right numbers but flips a negation or swaps a causal direction can pass as supported. Catching that needs a real NLI model, which I have not wired in yet. The corpus is also tiny (6 files, 29 chunks), so all of these numbers are indicative, not general.
+- The premise check only works on assertion-style questions. 7 of the 10 false-premise queries were not refused, including the two carried over from v1 (Q17, Q20). The measured reason is phrasing: DeBERTa-v3-small returns neutral for interrogative hypotheses. Fixing this properly means restating the question's premise as a declarative claim before the NLI call, which is a design change, not a threshold change; it is not in v2.
+- The NLI model is slow on CPU. A premise check costs a median of 1445.2 ms and a single claim check 813.5 ms on the machine that ran the ablation, so a full audit of a 5-claim draft adds roughly 4 s of NLI time on top of retrieval. The end-to-end audit of the sample above took 12.4 s. On GPU this is a non-issue; on CPU it makes the verifier a batch tool, not an interactive one.
+- DeBERTa-v3-small is weak on numeric entailment, as the audit example shows: correct numeric claims get `weakly_supported` when the model cannot verify the arithmetic relationship. The deterministic numeric check compensates for wrong numbers but cannot promote a correct number to `supported` on its own.
+- The reranker still does not improve ranking on this corpus (MRR 0.885 reranked vs 0.914 for plain hybrid RRF) and still falsely refuses Q03 and Q09 at the 0.35 threshold even though Q09's correct chunk is in the top 3. Its value is confined to refusal calibration.
+- Claims whose evidence spans two chunks are checked against one best chunk only, so multi-chunk synthesis claims can be marked `weakly_supported` or `unsupported` even when the retrieved set jointly supports them. The verifier has no notion of combining evidence.
+- The corpus is still self-written and the queries are still mine, so every number here describes this pipeline on this data. 60 queries is better than 20 and still small: one query is worth about 1.7 points of refusal accuracy.
 
 ## Run it locally
 
 ```bash
 pip install -r requirements.txt
-python scripts/run_ablation.py        # downloads the two MiniLM models on first run, writes eval/ablation_results.md
+python scripts/run_ablation.py        # downloads the three models on first run, writes eval/ablation_results.md
 uvicorn src.api:app --reload          # http://localhost:8000/docs
 pytest                                # lightweight mode, no model downloads
+python demo/app.py                    # optional Gradio demo, needs demo/requirements.txt
 ```
 
 ```bash
@@ -108,9 +140,10 @@ Optional live generation (`--live` in `src/pipeline.py`) uses any OpenAI-compati
 ## Layout
 
 ```
-corpus/    the six markdown notes
-eval/      queries.jsonl, ablation_results.md/.json, sample_audit.json
+corpus/    32 markdown notes
+eval/      queries.jsonl (60), ablation_results.md/.json, sample_audit.json
 src/       chunking, retrievers, grounding, pipeline, api
 scripts/   run_ablation.py
-tests/     test_core.py (chunking, RRF, grounding, refusal, API)
+demo/      standalone Gradio demo (own requirements.txt)
+tests/     test_core.py (chunking, RRF, grounding, NLI, refusal gate, API)
 ```
