@@ -20,13 +20,15 @@ THRESHOLDS = {
     "bm25": 2.0,
     "dense_faiss": 0.25,
     "hybrid_rrf": 0.020,
-    "hybrid_rrf_rerank": 0.35,
+    "hybrid_rrf_rerank_top20": 0.35,
+    "hybrid_rrf_rerank_top8": 0.35,
 }
 THRESHOLDS_LIGHTWEIGHT = {
     "bm25": 2.0,
     "dense_faiss": 0.08,
     "hybrid_rrf": 0.020,
-    "hybrid_rrf_rerank": 0.15,
+    "hybrid_rrf_rerank_top20": 0.15,
+    "hybrid_rrf_rerank_top8": 0.15,
 }
 
 
@@ -37,6 +39,8 @@ def load_queries() -> list[dict]:
 def evaluate(search_fn, queries: list[dict], threshold: float) -> dict:
     hits, rr, latencies = [], [], []
     refusal_correct, oos_total, oos_refused = 0, 0, 0
+    by_type: dict[str, list[int]] = {}
+    answerable_refused = 0
     per_query = []
     for q in queries:
         start = time.perf_counter()
@@ -50,11 +54,13 @@ def evaluate(search_fn, queries: list[dict], threshold: float) -> dict:
             hits.append(1.0 if ranks and ranks[0] <= 3 else 0.0)
             rr.append(1.0 / ranks[0] if ranks else 0.0)
             refusal_correct += 0 if refused else 1
+            answerable_refused += 1 if refused else 0
             per_query.append({"id": q["id"], "hit3": hits[-1], "rr": round(rr[-1], 3), "refused": refused})
         else:
             oos_total += 1
             oos_refused += 1 if refused else 0
             refusal_correct += 1 if refused else 0
+            by_type.setdefault(q.get("unanswerable_type", "out_of_scope"), []).append(1 if refused else 0)
             per_query.append({"id": q["id"], "hit3": None, "rr": None, "refused": refused})
     n_answerable = sum(1 for q in queries if q["answerable"])
     return {
@@ -62,6 +68,9 @@ def evaluate(search_fn, queries: list[dict], threshold: float) -> dict:
         "mrr_at_5": round(float(np.mean(rr)), 3) if rr else 0.0,
         "refusal_accuracy": round(refusal_correct / len(queries), 3),
         "oos_refusal_rate": round(oos_refused / oos_total, 3) if oos_total else 0.0,
+        "oos_refusal_accuracy": round(float(np.mean(by_type["out_of_scope"])), 3) if by_type.get("out_of_scope") else 0.0,
+        "false_premise_refusal_accuracy": round(float(np.mean(by_type["false_premise"])), 3) if by_type.get("false_premise") else 0.0,
+        "answerable_false_refusal_rate": round(answerable_refused / n_answerable, 3) if n_answerable else 0.0,
         "median_latency_ms": round(float(np.median(latencies)), 1),
         "n_answerable": n_answerable,
         "per_query": per_query,
@@ -77,7 +86,8 @@ def build_methods(chunks, lightweight: bool) -> dict:
         "bm25": lambda q, k: bm25.search(q, top_k=k),
         "dense_faiss": lambda q, k: dense.search(q, top_k=k),
         "hybrid_rrf": lambda q, k: hybrid.search(q, top_k=k),
-        "hybrid_rrf_rerank": lambda q, k: reranker.rerank(q, hybrid.search(q, top_k=20, pool=20), top_k=k),
+        "hybrid_rrf_rerank_top20": lambda q, k: reranker.rerank(q, hybrid.search(q, top_k=20, pool=20), top_k=k),
+        "hybrid_rrf_rerank_top8": lambda q, k: reranker.rerank(q, hybrid.search(q, top_k=20, pool=20)[:8], top_k=k),
     }
 
 
@@ -109,20 +119,24 @@ def main() -> None:
         print(f"chunking={label:14s} hit@3={r['hit_at_3']:.3f} mrr@5={r['mrr_at_5']:.3f} chunks={len(chunks)}")
 
     mode = "lightweight TF-IDF dense mode (not the numbers reported in the readme)" if args.lightweight else "sentence-transformers/all-MiniLM-L6-v2 embeddings, cross-encoder/ms-marco-MiniLM-L-6-v2 reranker, CPU"
+    n_ans = sum(1 for q in queries if q["answerable"])
+    n_oos = sum(1 for q in queries if q.get("unanswerable_type") == "out_of_scope")
+    n_fp = sum(1 for q in queries if q.get("unanswerable_type") == "false_premise")
     lines = [
         "# Ablation results",
         "",
         f"Mode: {mode}.",
-        f"Queries: {len(queries)} (14 answerable, 6 out of scope). Header-aware chunks: {len(header_chunks)}. Fixed chunks: {len(fixed)}.",
+        f"Queries: {len(queries)} ({n_ans} answerable, {n_oos} out of scope, {n_fp} false premise). Header-aware chunks: {len(header_chunks)}. Fixed chunks: {len(fixed)}.",
         "Latency is median per-query retrieval time on the machine that ran this script, single thread, warm index.",
+        "Refusal here is the score gate only (check 1); the full pipeline also runs the false-premise NLI check, measured separately in the gate calibration section.",
         "",
         "## Retrievers (header-aware chunking)",
         "",
-        "| method | Hit@3 | MRR@5 | refusal accuracy | out-of-scope refusal rate | median latency (ms) |",
-        "|---|---|---|---|---|---|",
+        "| method | Hit@3 | MRR@5 | refusal accuracy | out-of-scope refusal accuracy | false-premise refusal accuracy | answerable false-refusal rate | median latency (ms) |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for name, r in results.items():
-        lines.append(f"| {name} | {r['hit_at_3']:.3f} | {r['mrr_at_5']:.3f} | {r['refusal_accuracy']:.3f} | {r['oos_refusal_rate']:.3f} | {r['median_latency_ms']} |")
+        lines.append(f"| {name} | {r['hit_at_3']:.3f} | {r['mrr_at_5']:.3f} | {r['refusal_accuracy']:.3f} | {r['oos_refusal_accuracy']:.3f} | {r['false_premise_refusal_accuracy']:.3f} | {r['answerable_false_refusal_rate']:.3f} | {r['median_latency_ms']} |")
     lines += [
         "",
         "## Chunking (hybrid_rrf, everything else fixed)",
@@ -133,8 +147,8 @@ def main() -> None:
     for label, chunks in [("header_aware", header_chunks), ("fixed", fixed)]:
         r = chunking_results[label]
         lines.append(f"| {label} | {len(chunks)} | {r['hit_at_3']:.3f} | {r['mrr_at_5']:.3f} |")
-    lines += ["", "## Per-query detail (hybrid_rrf_rerank)", "", "| query | Hit@3 | reciprocal rank | refused |", "|---|---|---|---|"]
-    for row in results["hybrid_rrf_rerank"]["per_query"]:
+    lines += ["", "## Per-query detail (hybrid_rrf_rerank_top8)", "", "| query | Hit@3 | reciprocal rank | refused |", "|---|---|---|---|"]
+    for row in results["hybrid_rrf_rerank_top8"]["per_query"]:
         lines.append(f"| {row['id']} | {row['hit3']} | {row['rr']} | {row['refused']} |")
     lines.append("")
     (ROOT / "eval/ablation_results.md").write_text("\n".join(lines))

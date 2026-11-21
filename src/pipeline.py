@@ -18,6 +18,7 @@ class RagPipeline:
         lightweight: bool = False,
         chunking: str = "header",
         refusal_threshold: float = 0.30,
+        top_k_candidates: int = 8,
     ):
         docs = load_corpus(corpus_dir)
         self.chunks = header_aware_chunks(docs) if chunking == "header" else fixed_chunks(docs)
@@ -26,6 +27,7 @@ class RagPipeline:
         self.hybrid = HybridRRFRetriever(self.bm25, self.dense)
         self.reranker = CrossEncoderReranker(lightweight=lightweight)
         self.refusal_threshold = refusal_threshold
+        self.top_k_candidates = top_k_candidates
         self.lightweight = lightweight
 
         if lightweight:
@@ -38,8 +40,10 @@ class RagPipeline:
             self.auditor = ClaimAuditor(scorer=ce_scorer)
 
     def retrieve(self, question: str, top_k: int = 5) -> list[dict]:
+        # only the top fused candidates go to the cross-encoder; reranking the
+        # whole pool was the main CPU latency cost in the v1 ablation
         candidates = self.hybrid.search(question, top_k=20, pool=20)
-        return self.reranker.rerank(question, candidates, top_k=top_k)
+        return self.reranker.rerank(question, candidates[: self.top_k_candidates], top_k=top_k)
 
     def query(self, question: str, top_k: int = 5) -> dict:
         start = time.perf_counter()
