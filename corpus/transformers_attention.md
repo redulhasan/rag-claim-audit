@@ -35,6 +35,9 @@ The trade is memory for compute: decoding step t costs O(t * d) attention
 work instead of O(t^2 * d), at the price of the cache above. Batch size in
 production serving is usually limited by KV cache memory, not weights.
 
+In autoregressive decoding, KV cache memory scales linearly with batch size, sequence length, layer count, and KV head dimension, shifting long-context generation from compute-bound to memory-bandwidth bound.
+Grouped-Query Attention (GQA) and Multi-Query Attention (MQA) cut this cache footprint by sharing key and value projections across query heads, trading a minor accuracy risk for higher serving throughput.
+
 ## RoPE
 
 Rotary position embedding rotates each pair of dimensions of q and k by an
