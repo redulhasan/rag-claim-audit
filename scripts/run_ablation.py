@@ -9,8 +9,10 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.chunking import fixed_chunks, header_aware_chunks, load_corpus
-from src.grounding import should_refuse
+from src.grounding import NLIVerifier, should_refuse
 from src.retrievers import BM25Retriever, CrossEncoderReranker, DenseFAISSRetriever, HybridRRFRetriever
+
+PREMISE_THRESHOLD = 0.55  # matches RagPipeline.premise_threshold
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -77,6 +79,43 @@ def evaluate(search_fn, queries: list[dict], threshold: float) -> dict:
     }
 
 
+def evaluate_gate(search_fn, queries: list[dict], threshold: float, verifier: NLIVerifier) -> dict:
+    # the full pipeline gate on top of one retrieval method: check 1 is the
+    # score gate, check 2 is the NLI premise check against the top chunk.
+    # also times the NLI calls so the added CPU latency is measured, not guessed.
+    by_type: dict[str, list[int]] = {}
+    answerable_refused, correct, nli_latencies = 0, 0, []
+    per_query = []
+    for q in queries:
+        results = search_fn(q["query"], 5)
+        top_score = results[0]["score"] if results else 0.0
+        refused = should_refuse(top_score, threshold)
+        reason = "out_of_scope" if refused else None
+        if not refused and results:
+            start = time.perf_counter()
+            probs = verifier.probs(results[0]["text"], q["query"])
+            nli_latencies.append((time.perf_counter() - start) * 1000)
+            if probs.get("contradiction", 0.0) >= PREMISE_THRESHOLD:
+                refused, reason = True, "false_premise"
+        if q["answerable"]:
+            answerable_refused += 1 if refused else 0
+            correct += 0 if refused else 1
+        else:
+            by_type.setdefault(q.get("unanswerable_type", "out_of_scope"), []).append(1 if refused else 0)
+            correct += 1 if refused else 0
+        per_query.append({"id": q["id"], "refused": refused, "refusal_reason": reason})
+    n_answerable = sum(1 for q in queries if q["answerable"])
+    return {
+        "refusal_accuracy": round(correct / len(queries), 3),
+        "oos_refusal_accuracy": round(float(np.mean(by_type["out_of_scope"])), 3) if by_type.get("out_of_scope") else 0.0,
+        "false_premise_refusal_accuracy": round(float(np.mean(by_type["false_premise"])), 3) if by_type.get("false_premise") else 0.0,
+        "answerable_false_refusal_rate": round(answerable_refused / n_answerable, 3) if n_answerable else 0.0,
+        "nli_median_latency_ms": round(float(np.median(nli_latencies)), 1) if nli_latencies else 0.0,
+        "nli_checks": len(nli_latencies),
+        "per_query": per_query,
+    }
+
+
 def build_methods(chunks, lightweight: bool) -> dict:
     bm25 = BM25Retriever(chunks)
     dense = DenseFAISSRetriever(chunks, lightweight=lightweight)
@@ -118,6 +157,23 @@ def main() -> None:
         r = chunking_results[label]
         print(f"chunking={label:14s} hit@3={r['hit_at_3']:.3f} mrr@5={r['mrr_at_5']:.3f} chunks={len(chunks)}")
 
+    # full gate calibration on the default pipeline method (rerank, top-8 pool),
+    # plus the per-claim NLI latency measured on the saved sample audit
+    verifier = NLIVerifier(lightweight=args.lightweight)
+    gate = evaluate_gate(methods["hybrid_rrf_rerank_top8"], queries, thresholds["hybrid_rrf_rerank_top8"], verifier)
+    print(f"gate(top8+premise)   refusal_acc={gate['refusal_accuracy']:.3f} oos_acc={gate['oos_refusal_accuracy']:.3f} fp_acc={gate['false_premise_refusal_accuracy']:.3f} ans_false_refusal={gate['answerable_false_refusal_rate']:.3f} nli_ms={gate['nli_median_latency_ms']}")
+    sample = json.loads((ROOT / "eval/sample_audit.json").read_text())
+    chunk_by_citation = {(c.source_file, c.section): c.text for c in header_chunks}
+    claim_latencies = []
+    for claim in sample["claims"]:
+        text = chunk_by_citation.get((claim["citation"]["source_file"], claim["citation"]["section"]))
+        if text:
+            start = time.perf_counter()
+            verifier.probs(text, claim["claim"])
+            claim_latencies.append((time.perf_counter() - start) * 1000)
+    claim_nli_ms = round(float(np.median(claim_latencies)), 1) if claim_latencies else 0.0
+    print(f"nli claim-pair median latency: {claim_nli_ms} ms over {len(claim_latencies)} claims")
+
     mode = "lightweight TF-IDF dense mode (not the numbers reported in the readme)" if args.lightweight else "sentence-transformers/all-MiniLM-L6-v2 embeddings, cross-encoder/ms-marco-MiniLM-L-6-v2 reranker, CPU"
     n_ans = sum(1 for q in queries if q["answerable"])
     n_oos = sum(1 for q in queries if q.get("unanswerable_type") == "out_of_scope")
@@ -147,12 +203,34 @@ def main() -> None:
     for label, chunks in [("header_aware", header_chunks), ("fixed", fixed)]:
         r = chunking_results[label]
         lines.append(f"| {label} | {len(chunks)} | {r['hit_at_3']:.3f} | {r['mrr_at_5']:.3f} |")
-    lines += ["", "## Per-query detail (hybrid_rrf_rerank_top8)", "", "| query | Hit@3 | reciprocal rank | refused |", "|---|---|---|---|"]
+    lines += [
+        "",
+        "## Gate calibration (hybrid_rrf_rerank_top8 + premise NLI check)",
+        "",
+        f"Check 1 threshold {thresholds['hybrid_rrf_rerank_top8']}, premise contradiction threshold {PREMISE_THRESHOLD}.",
+        "",
+        "| metric | value |",
+        "|---|---|",
+        f"| refusal accuracy (all queries) | {gate['refusal_accuracy']:.3f} |",
+        f"| out-of-scope refusal accuracy (n={n_oos}) | {gate['oos_refusal_accuracy']:.3f} |",
+        f"| false-premise refusal accuracy (n={n_fp}) | {gate['false_premise_refusal_accuracy']:.3f} |",
+        f"| answerable false-refusal rate (n={n_ans}) | {gate['answerable_false_refusal_rate']:.3f} |",
+        f"| NLI premise check median latency (ms, {gate['nli_checks']} checks) | {gate['nli_median_latency_ms']} |",
+        f"| NLI claim-pair median latency (ms, sample audit) | {claim_nli_ms} |",
+        "",
+        "## Per-query detail (hybrid_rrf_rerank_top8, score gate only)",
+        "",
+        "| query | Hit@3 | reciprocal rank | refused |",
+        "|---|---|---|---|",
+    ]
     for row in results["hybrid_rrf_rerank_top8"]["per_query"]:
         lines.append(f"| {row['id']} | {row['hit3']} | {row['rr']} | {row['refused']} |")
+    lines += ["", "## Per-query gate detail (score gate + premise check)", "", "| query | refused | refusal_reason |", "|---|---|---|"]
+    for row in gate["per_query"]:
+        lines.append(f"| {row['id']} | {row['refused']} | {row['refusal_reason']} |")
     lines.append("")
     (ROOT / "eval/ablation_results.md").write_text("\n".join(lines))
-    (ROOT / "eval/ablation_results.json").write_text(json.dumps({"results": results, "chunking": chunking_results}, indent=2))
+    (ROOT / "eval/ablation_results.json").write_text(json.dumps({"results": results, "chunking": chunking_results, "gate": gate, "nli_claim_median_latency_ms": claim_nli_ms}, indent=2))
     print("wrote eval/ablation_results.md")
 
 

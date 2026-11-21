@@ -5,7 +5,7 @@ import time
 from pathlib import Path
 
 from src.chunking import fixed_chunks, header_aware_chunks, load_corpus
-from src.grounding import REFUSAL_TEXT, ClaimAuditor, should_refuse
+from src.grounding import PREMISE_REFUSAL_TEXT, REFUSAL_TEXT, ClaimAuditor, NLIVerifier, should_refuse
 from src.retrievers import BM25Retriever, CrossEncoderReranker, DenseFAISSRetriever, HybridRRFRetriever
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +19,7 @@ class RagPipeline:
         chunking: str = "header",
         refusal_threshold: float = 0.30,
         top_k_candidates: int = 8,
+        premise_threshold: float = 0.55,
     ):
         docs = load_corpus(corpus_dir)
         self.chunks = header_aware_chunks(docs) if chunking == "header" else fixed_chunks(docs)
@@ -28,16 +29,19 @@ class RagPipeline:
         self.reranker = CrossEncoderReranker(lightweight=lightweight)
         self.refusal_threshold = refusal_threshold
         self.top_k_candidates = top_k_candidates
+        self.premise_threshold = premise_threshold
         self.lightweight = lightweight
+        self.nli = NLIVerifier(lightweight=lightweight)
 
         if lightweight:
-            self.auditor = ClaimAuditor()
+            self.auditor = ClaimAuditor(nli=self.nli.probs)
         else:
-            # audit claims with the same cross-encoder, scored against chunks
+            # relevance scorer picks the best chunk per claim; the NLI verifier
+            # then decides supported / weakly_supported / unsupported on it
             def ce_scorer(claim: str, chunk_text: str) -> float:
                 return self.reranker.score_pairs(claim, [chunk_text])[0]
 
-            self.auditor = ClaimAuditor(scorer=ce_scorer)
+            self.auditor = ClaimAuditor(scorer=ce_scorer, nli=self.nli.probs)
 
     def retrieve(self, question: str, top_k: int = 5) -> list[dict]:
         # only the top fused candidates go to the cross-encoder; reranking the
@@ -48,22 +52,39 @@ class RagPipeline:
     def query(self, question: str, top_k: int = 5) -> dict:
         start = time.perf_counter()
         results = self.retrieve(question, top_k=top_k)
-        latency_ms = round((time.perf_counter() - start) * 1000, 1)
         top_score = results[0]["score"] if results else 0.0
+        # check 1 (out of scope): the reranker's top score is a sigmoid-squashed
+        # logit in full mode; the lightweight coverage score plays the same role
         if should_refuse(top_score, self.refusal_threshold):
             return {
                 "question": question,
                 "refused": True,
+                "refusal_reason": "out_of_scope",
                 "message": REFUSAL_TEXT,
                 "results": results,
-                "latency_ms": latency_ms,
+                "latency_ms": round((time.perf_counter() - start) * 1000, 1),
             }
+        # check 2 (false premise): run NLI with the top chunk as premise and the
+        # question itself as hypothesis. checking the extracted answer sentences
+        # instead would be circular - they come from that same chunk.
+        if results:
+            probs = self.nli.probs(results[0]["text"], question)
+            if probs.get("contradiction", 0.0) >= self.premise_threshold:
+                return {
+                    "question": question,
+                    "refused": True,
+                    "refusal_reason": "false_premise",
+                    "message": PREMISE_REFUSAL_TEXT,
+                    "results": results,
+                    "latency_ms": round((time.perf_counter() - start) * 1000, 1),
+                }
         return {
             "question": question,
             "refused": False,
+            "refusal_reason": None,
             "answer": extractive_answer(results),
             "results": results,
-            "latency_ms": latency_ms,
+            "latency_ms": round((time.perf_counter() - start) * 1000, 1),
         }
 
     def audit(self, question: str, draft_answer: str | None = None) -> dict:
@@ -73,16 +94,22 @@ class RagPipeline:
             return {
                 "question": question,
                 "refused": True,
-                "message": REFUSAL_TEXT,
+                "refusal_reason": found.get("refusal_reason"),
+                "message": found.get("message", REFUSAL_TEXT),
                 "latency_ms": found["latency_ms"],
             }
         answer = draft_answer or found["answer"]
         report = self.auditor.audit(answer, found["results"])
+        # check 3 (audit mode): the draft as a whole is ungrounded if most of it
+        # is unsupported or any single claim flatly contradicts its source
+        ungrounded = report["grounding_ratio"] < 0.50 or any(c["contradiction"] for c in report["claims"])
         return {
             "question": question,
             "refused": False,
+            "refusal_reason": None,
             "answer": answer,
             **report,
+            "ungrounded": ungrounded,
             "latency_ms": round((time.perf_counter() - start) * 1000, 1),
         }
 
